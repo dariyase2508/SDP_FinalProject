@@ -9,6 +9,10 @@ import com.linguaflow.observer.subject.ProgressTracker;
 import com.linguaflow.strategy.ReviewManager;
 import com.linguaflow.strategy.ReviewSchedule;
 import com.linguaflow.strategy.StudyMode;
+import com.linguaflow.factory.ExerciseFactoryProvider;
+import com.linguaflow.factory.ExerciseType;
+import com.linguaflow.factory.product.Exercise;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,6 +29,8 @@ public class LinguaFlowFacade {
     private final Map<Word, WordProgress> progress = new LinkedHashMap<>();
     private final ReviewManager reviewManager;
     private final ProgressTracker tracker;
+    private final ExerciseFactoryProvider exerciseFactories = new ExerciseFactoryProvider();
+
     private StudyMode mode;
     private Duration timeShift = Duration.ZERO;   // demo helper: lets us "skip days" without waiting
 
@@ -52,16 +58,21 @@ public class LinguaFlowFacade {
                 .orElseThrow(() -> new IllegalArgumentException("No lesson with id " + lessonId));
     }
 
+    //(Factory) exercises
+    public Exercise createExercise(Word word, ExerciseType type) {
+        return exerciseFactories.getFactory(type).createExercise(word);
+    }
+
     // ---------- quiz + spaced repetition ----------
     /** Checks the answer, updates the schedule (Strategy) and notifies listeners (Observer). */
-    public AnswerResult answer(Word word, String userAnswer) {
-        WordProgress wp = progress.get(word);
-        boolean correct = word.isCorrect(userAnswer);
+    public AnswerResult answer(Exercise exercise, String userAnswer) {
+        Word word = exercise.getWord();
+        boolean correct = exercise.check(userAnswer);
 
-        ReviewSchedule schedule = reviewManager.review(wp, correct, now());
+        ReviewSchedule schedule = reviewManager.review(progress.get(word), correct, now());
         tracker.recordAnswer(word, correct, schedule.nextReview());
 
-        return new AnswerResult(word, correct, word.translation(),
+        return new AnswerResult(word, correct, exercise.getCorrectAnswer(),
                 schedule.newLevel(), schedule.nextReview(), mode.name());
     }
 
