@@ -1,4 +1,4 @@
-package com.linguaflow.Builder;
+package com.linguaflow.builder;
 
 import com.linguaflow.model.Lesson;
 import com.linguaflow.model.Word;

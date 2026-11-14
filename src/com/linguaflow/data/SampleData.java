@@ -3,7 +3,7 @@ package com.linguaflow.data;
 
 import com.linguaflow.model.Lesson;
 import com.linguaflow.model.Word;
-import com.linguaflow.Builder.LessonBuilder;
+import com.linguaflow.builder.LessonBuilder;
 import com.linguaflow.model.*;
 
 import java.util.List;
