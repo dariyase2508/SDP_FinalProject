@@ -5,6 +5,8 @@ import com.linguaflow.facade.LinguaFlowFacade;
 import com.linguaflow.model.Lesson;
 import com.linguaflow.model.Word;
 import com.linguaflow.strategy.StudyMode;
+import com.linguaflow.factory.ExerciseType;
+import com.linguaflow.factory.product.Exercise;
 import com.linguaflow.observer.listener.AchievementListener;
 import com.linguaflow.observer.listener.ProgressBarListener;
 import com.linguaflow.observer.listener.ReminderListener;
@@ -62,10 +64,12 @@ public class Main {
 
     private static void quiz(LinguaFlowFacade app, Scanner in, List<Word> words) {
         if (words.isEmpty()) { System.out.println("Nothing to review right now."); return; }
+        ExerciseType[] types = ExerciseType.values();
         int correct = 0;
-        for (Word w : words) {
-            System.out.print("Translate \"" + w.english() + "\": ");
-            AnswerResult r = app.answer(w, in.nextLine());
+        for (int i = 0; i < words.size(); i++) {
+            Exercise exercise = app.createExercise(words.get(i), types[i % types.length]);
+            System.out.print("[" + exercise.getType() + "] " + exercise.getQuestion() + ": ");
+            AnswerResult r = app.answer(exercise, in.nextLine());
             if (r.correct()) correct++;
             System.out.println(r.correct() ? "   OK" : "   Wrong! Correct: " + r.correctAnswer());
             System.out.printf("   level %d, next review: %s%n", r.level(), r.nextReview().format(FMT));
