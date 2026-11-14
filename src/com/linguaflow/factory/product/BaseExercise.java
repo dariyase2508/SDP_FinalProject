@@ -19,6 +19,11 @@ public abstract class BaseExercise implements Exercise {
     }
 
     @Override
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    @Override
     public boolean check(String answer){
 
         return answer != null && normalize(answer).equals(normalize(correctAnswer));

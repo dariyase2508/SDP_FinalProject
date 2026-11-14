@@ -6,5 +6,6 @@ public interface Exercise {
     String getType();
     String getQuestion();
     boolean check(String answer);
+    String getCorrectAnswer();
     Word getWord();
 }
