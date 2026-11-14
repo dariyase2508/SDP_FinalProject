@@ -5,12 +5,15 @@ import com.linguaflow.facade.LinguaFlowFacade;
 import com.linguaflow.model.Lesson;
 import com.linguaflow.model.Word;
 import com.linguaflow.strategy.StudyMode;
+import com.linguaflow.observer.listener.AchievementListener;
+import com.linguaflow.observer.listener.ProgressBarListener;
+import com.linguaflow.observer.listener.ReminderListener;
+
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
-/** Console demo. The UI talks ONLY to LinguaFlowFacade - it never sees strategies or the tracker. */
 public class Main {
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
@@ -18,7 +21,10 @@ public class Main {
         LinguaFlowFacade app = new LinguaFlowFacade(StudyMode.NORMAL);
         Scanner in = new Scanner(System.in);
 
-        // Observer: print a progress line after every answer (teammate can replace with a real listener)
+        app.addProgressListener(new ProgressBarListener());
+        app.addProgressListener(new AchievementListener());
+        app.addProgressListener(new ReminderListener());
+
         app.addProgressListener(e -> {
             int total = e.totalCorrect() + e.totalWrong();
             System.out.printf("   [Progress] %d correct / %d wrong (%d%%)%n",

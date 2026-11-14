@@ -26,14 +26,4 @@ public class ReminderListener implements ProgressListener {
                     + "\" at " + event.nextReview().format(FORMAT));
         }
     }
-
-    public List<Word> getDueWords(LocalDateTime now) {
-        List<Word> due = new ArrayList<>();
-        schedule.forEach((word, time) -> {
-            if (!time.isAfter(now)) {
-                due.add(word);
-            }
-        });
-        return due;
-    }
 }
