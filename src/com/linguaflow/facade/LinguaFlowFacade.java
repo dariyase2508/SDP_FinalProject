@@ -40,7 +40,7 @@ public class LinguaFlowFacade {
 
     public LinguaFlowFacade(StudyMode mode) {
         this.mode = mode;
-        this.lessons = SampleData.createLessons();            // TODO: lessons from the Builder part
+        this.lessons = SampleData.createLessons();
         this.reviewManager = new ReviewManager(mode.createStrategy());
         this.tracker = new ProgressTracker();
         for (Lesson lesson : lessons)

@@ -24,13 +24,11 @@ public abstract class BaseExercise implements Exercise {
     }
 
     @Override
-    public boolean check(String answer){
-
+    public boolean check(String answer) {
         return answer != null && normalize(answer).equals(normalize(correctAnswer));
     }
 
-    private String normalize(String text){
-
+    private String normalize(String text) {
         return text.trim().toLowerCase();
     }
 }
