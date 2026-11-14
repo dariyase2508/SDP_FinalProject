@@ -1,4 +1,6 @@
-package com.linguaflow.observer;
+package com.linguaflow.observer.listener;
+
+import com.linguaflow.observer.event.ProgressEvent;
 
 /** PLACEHOLDER (Observer teammate): observer interface (progress bar, reminders, ...). */
 public interface ProgressListener {

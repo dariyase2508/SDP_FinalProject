@@ -1,6 +1,9 @@
-package com.linguaflow.observer;
+package com.linguaflow.observer.subject;
 
 import com.linguaflow.model.Word;
+import com.linguaflow.observer.event.ProgressEvent;
+import com.linguaflow.observer.listener.ProgressListener;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.linguaflow.observer;
+package com.linguaflow.observer.event;
 
 import com.linguaflow.model.Word;
 import java.time.LocalDateTime;
