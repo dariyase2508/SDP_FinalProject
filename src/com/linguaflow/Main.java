@@ -69,6 +69,11 @@ public class Main {
         for (int i = 0; i < words.size(); i++) {
             Exercise exercise = app.createExercise(words.get(i), types[i % types.length]);
             System.out.print("[" + exercise.getType() + "] " + exercise.getQuestion() + ": ");
+            String input = in.nextLine();
+            if (input.trim().equalsIgnoreCase("/exit")) {
+                System.out.println("Lesson stopped.");
+                break;
+            }
             AnswerResult r = app.answer(exercise, in.nextLine());
             if (r.correct()) correct++;
             System.out.println(r.correct() ? "   OK" : "   Wrong! Correct: " + r.correctAnswer());
