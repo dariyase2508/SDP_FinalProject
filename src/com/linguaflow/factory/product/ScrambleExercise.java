@@ -1,4 +1,4 @@
-package com.linguaflow.factory;
+package com.linguaflow.factory.product;
 
 import com.linguaflow.model.Word;
 
@@ -9,7 +9,7 @@ import java.util.List;
 public class ScrambleExercise extends BaseExercise {
 
     public ScrambleExercise(Word word) {
-        super(word.translation(),
+        super(word, word.translation(),
                 word.english());
     }
 

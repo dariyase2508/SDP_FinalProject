@@ -1,10 +1,11 @@
-package com.linguaflow.factory;
+package com.linguaflow.factory.product;
 
 import com.linguaflow.model.Word;
 
 public class TranslationExercise extends BaseExercise {
     public TranslationExercise(Word word) {
-        super(word.english(), word.translation());
+
+        super(word, word.english(), word.translation());
     }
 
     @Override
