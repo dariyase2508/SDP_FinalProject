@@ -2,14 +2,14 @@ package com.linguaflow;
 
 import com.linguaflow.facade.AnswerResult;
 import com.linguaflow.facade.LinguaFlowFacade;
-import com.linguaflow.model.Lesson;
-import com.linguaflow.model.Word;
-import com.linguaflow.strategy.StudyMode;
 import com.linguaflow.factory.ExerciseType;
 import com.linguaflow.factory.product.Exercise;
+import com.linguaflow.model.Lesson;
+import com.linguaflow.model.Word;
 import com.linguaflow.observer.listener.AchievementListener;
 import com.linguaflow.observer.listener.ProgressBarListener;
 import com.linguaflow.observer.listener.ReminderListener;
+import com.linguaflow.strategy.StudyMode;
 
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +18,7 @@ import java.util.Scanner;
 
 public class Main {
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private static final String EXIT_COMMAND = "/exit";
 
     public static void main(String[] args) {
         LinguaFlowFacade app = new LinguaFlowFacade(StudyMode.NORMAL);
@@ -26,12 +27,6 @@ public class Main {
         app.addProgressListener(new ProgressBarListener());
         app.addProgressListener(new AchievementListener());
         app.addProgressListener(new ReminderListener());
-
-        app.addProgressListener(e -> {
-            int total = e.totalCorrect() + e.totalWrong();
-            System.out.printf("   [Progress] %d correct / %d wrong (%d%%)%n",
-                    e.totalCorrect(), e.totalWrong(), e.totalCorrect() * 100 / total);
-        });
 
         while (true) {
             System.out.printf("%n=== LinguaFlow | mode: %s ===%n", app.getMode());
@@ -64,22 +59,26 @@ public class Main {
 
     private static void quiz(LinguaFlowFacade app, Scanner in, List<Word> words) {
         if (words.isEmpty()) { System.out.println("Nothing to review right now."); return; }
+        System.out.println("(type " + EXIT_COMMAND + " to leave the lesson)");
         ExerciseType[] types = ExerciseType.values();
         int correct = 0;
+        int answered = 0;
         for (int i = 0; i < words.size(); i++) {
+            // Factory: every word gets a different kind of exercise
             Exercise exercise = app.createExercise(words.get(i), types[i % types.length]);
             System.out.print("[" + exercise.getType() + "] " + exercise.getQuestion() + ": ");
             String input = in.nextLine();
-            if (input.trim().equalsIgnoreCase("/exit")) {
+            if (input.trim().equalsIgnoreCase(EXIT_COMMAND)) {
                 System.out.println("Lesson stopped.");
                 break;
             }
-            AnswerResult r = app.answer(exercise, in.nextLine());
+            AnswerResult r = app.answer(exercise, input);
+            answered++;
             if (r.correct()) correct++;
             System.out.println(r.correct() ? "   OK" : "   Wrong! Correct: " + r.correctAnswer());
             System.out.printf("   level %d, next review: %s%n", r.level(), r.nextReview().format(FMT));
         }
-        System.out.printf("Result: %d / %d%n", correct, words.size());
+        System.out.printf("Result: %d / %d answered correctly%n", correct, answered);
     }
 
     private static void changeMode(LinguaFlowFacade app, Scanner in) {
