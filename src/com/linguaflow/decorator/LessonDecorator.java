@@ -1,5 +1,8 @@
 
-package com.linguaflow.model;
+package com.linguaflow.decorator;
+
+import com.linguaflow.model.Lesson;
+import com.linguaflow.model.Word;
 
 import java.util.List;
 
@@ -42,5 +45,13 @@ public abstract class LessonDecorator extends Lesson {
         return lesson;
     }
 
+    @Override
+    public List<String> getExamples(){
+        return lesson.getExamples();
+    }
 
+    @Override
+    public List<String> getHints() {
+        return lesson.getHints();
+    }
 }

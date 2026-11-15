@@ -1,5 +1,8 @@
 
-package com.linguaflow.model;
+package com.linguaflow.decorator;
+
+import com.linguaflow.model.Lesson;
+import com.linguaflow.model.Word;
 
 import java.util.ArrayList;
 import java.util.List;

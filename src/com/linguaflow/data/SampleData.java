@@ -1,10 +1,13 @@
 
 package com.linguaflow.data;
 
+import com.linguaflow.builder.LessonBuilder;
+import com.linguaflow.decorator.BonusWordsDecorator;
+import com.linguaflow.decorator.ExamplesDecorator;
+import com.linguaflow.decorator.HintDecorator;
 import com.linguaflow.model.Lesson;
 import com.linguaflow.model.Word;
-import com.linguaflow.builder.LessonBuilder;
-import com.linguaflow.model.*;
+
 
 import java.util.List;
 

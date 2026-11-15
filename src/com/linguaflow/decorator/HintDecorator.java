@@ -1,7 +1,10 @@
 
-package com.linguaflow.model;
+package com.linguaflow.decorator;
+
+import com.linguaflow.model.Lesson;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class HintDecorator extends LessonDecorator {
 
@@ -13,6 +16,8 @@ public class HintDecorator extends LessonDecorator {
     }
 
     public List<String> getHints() {
-        return hints;
+        List<String> result = new ArrayList<>(lesson.getHints());
+        result.addAll(hints);
+        return List.copyOf(result);
     }
 }

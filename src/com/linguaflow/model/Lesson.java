@@ -2,11 +2,6 @@ package com.linguaflow.model;
 
 import java.util.List;
 
-/**
- * PLACEHOLDER for the teammate's BUILDER part.
- * The Facade only needs getId(), getTitle() and getWords(), so the teammate's
- * Lesson / LessonBuilder can replace this class without touching the Facade.
- */
 public class Lesson {
     private final int id;
     private final String title;
@@ -18,7 +13,19 @@ public class Lesson {
         this.words = List.copyOf(words);
     }
 
-    public int getId()            { return id; }
-    public String getTitle()      { return title; }
-    public List<Word> getWords()  { return words; }
+    public int getId() {
+        return id;
+    }
+    public String getTitle(){
+        return title;
+    }
+    public List<Word> getWords(){
+        return words;
+    }
+    public List<String> getExamples(){
+        return List.of();
+    }
+    public List<String> getHints () {
+        return List.of();
+    }
 }

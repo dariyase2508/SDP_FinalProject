@@ -29,6 +29,6 @@ public abstract class BaseExercise implements Exercise {
     }
 
     private String normalize(String text) {
-        return text.trim().toLowerCase();
+        return text.trim().toLowerCase().replace('ё', 'е');
     }
 }

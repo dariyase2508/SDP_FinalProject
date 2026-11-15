@@ -1,6 +1,9 @@
 
-package com.linguaflow.model;
+package com.linguaflow.decorator;
 
+import com.linguaflow.model.Lesson;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExamplesDecorator extends LessonDecorator {
@@ -12,7 +15,10 @@ public class ExamplesDecorator extends LessonDecorator {
         this.examples = List.copyOf(examples);
     }
 
+    @Override
     public List<String> getExamples() {
-        return examples;
+        List<String> result = new ArrayList<>(lesson.getExamples());
+        result.addAll(examples);
+        return List.copyOf(result);
     }
 }

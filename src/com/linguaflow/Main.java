@@ -51,7 +51,10 @@ public class Main {
             System.out.printf("  %d. %s (%d words)%n", l.getId(), l.getTitle(), l.getWords().size());
         System.out.print("Lesson number: ");
         try {
-            quiz(app, in, app.getLesson(Integer.parseInt(in.nextLine().trim())).getWords());
+            Lesson lesson = app.getLesson(Integer.parseInt(in.nextLine().trim()));
+            lesson.getHints().forEach(h -> System.out.println(" Hint: " + h));
+            lesson.getExamples().forEach(e -> System.out.println("Example: " + e));
+            quiz(app, in, lesson.getWords());
         } catch (IllegalArgumentException ex) {
             System.out.println("Invalid lesson");
         }
