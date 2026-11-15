@@ -15,6 +15,7 @@ public class HintDecorator extends LessonDecorator {
         this.hints = List.copyOf(hints);
     }
 
+    @Override
     public List<String> getHints() {
         List<String> result = new ArrayList<>(lesson.getHints());
         result.addAll(hints);

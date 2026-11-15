@@ -16,16 +16,20 @@ public class Lesson {
     public int getId() {
         return id;
     }
-    public String getTitle(){
+
+    public String getTitle() {
         return title;
     }
-    public List<Word> getWords(){
+
+    public List<Word> getWords() {
         return words;
     }
-    public List<String> getExamples(){
+
+    public List<String> getExamples() {
         return List.of();
     }
-    public List<String> getHints () {
+
+    public List<String> getHints() {
         return List.of();
     }
 }

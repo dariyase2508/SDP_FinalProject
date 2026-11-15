@@ -6,12 +6,16 @@ class Lesson <<component>> {
   +getId(): int
   +getTitle(): String
   +getWords(): List<Word>
+  +getExamples(): List<String>
+  +getHints(): List<String>
 }
 abstract class LessonDecorator <<decorator>> {
   #lesson: Lesson
   +getId(): int
   +getTitle(): String
   +getWords(): List<Word>
+  +getExamples(): List<String>
+  +getHints(): List<String>
   +getWrappedLesson(): Lesson
 }
 class BonusWordsDecorator {
