@@ -1,0 +1,41 @@
+@startuml overview
+title LinguaFlow: how the six patterns work together
+skinparam classAttributeIconSize 0
+
+class Main
+class LinguaFlowFacade <<Facade>>
+class ReviewManager <<Strategy context>>
+interface ReviewStrategy <<Strategy>>
+class EasyStrategy
+class NormalStrategy
+class HardStrategy
+class ExerciseFactoryProvider <<Factory Method>>
+interface Exercise
+class ProgressTracker <<Observer subject>>
+interface ProgressListener <<Observer>>
+class LessonBuilder <<Builder>>
+class Lesson
+abstract class LessonDecorator <<Decorator>>
+class SampleData
+
+Main --> LinguaFlowFacade : uses only the facade
+LinguaFlowFacade --> ReviewManager
+LinguaFlowFacade --> ExerciseFactoryProvider
+LinguaFlowFacade --> ProgressTracker
+LinguaFlowFacade --> SampleData
+
+ReviewManager o-- ReviewStrategy
+ReviewStrategy <|.. EasyStrategy
+ReviewStrategy <|.. NormalStrategy
+ReviewStrategy <|.. HardStrategy
+
+ExerciseFactoryProvider ..> Exercise : creates
+
+ProgressTracker o-- "*" ProgressListener
+
+SampleData ..> LessonBuilder : builds lessons
+SampleData ..> LessonDecorator : extends lessons
+LessonBuilder ..> Lesson : creates
+LessonDecorator --|> Lesson
+LessonDecorator o-- Lesson : wraps
+@enduml

@@ -1,0 +1,40 @@
+@startuml observer
+title Observer: progress tracking
+skinparam classAttributeIconSize 0
+
+interface ProgressSubject {
+  +addListener(l: ProgressListener)
+  +removeListener(l: ProgressListener)
+}
+class ProgressTracker {
+  -listeners: List<ProgressListener>
+  -totalCorrect: int
+  -totalWrong: int
+  +recordAnswer(word: Word, correct: boolean, nextReview: LocalDateTime)
+  -notifyListeners(event: ProgressEvent)
+}
+interface ProgressListener {
+  +onProgressChanged(event: ProgressEvent)
+}
+class ProgressBarListener
+class AchievementListener {
+  -streak: int
+}
+class ReminderListener
+class ProgressEvent <<record>> {
+  word: Word
+  correct: boolean
+  totalCorrect: int
+  totalWrong: int
+  nextReview: LocalDateTime
+  +accuracyPercent(): int
+}
+
+ProgressSubject <|.. ProgressTracker
+ProgressListener <|.. ProgressBarListener
+ProgressListener <|.. AchievementListener
+ProgressListener <|.. ReminderListener
+ProgressTracker o-- "*" ProgressListener
+ProgressTracker ..> ProgressEvent : creates
+ProgressListener ..> ProgressEvent : receives
+@enduml

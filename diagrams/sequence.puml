@@ -1,0 +1,25 @@
+@startuml sequence
+title One answer: from the user to the listeners
+actor User
+participant Main
+participant LinguaFlowFacade as Facade
+participant ExerciseFactoryProvider as Provider
+participant Exercise
+participant ReviewManager as Strategy
+participant ProgressTracker as Tracker
+participant ProgressListener as Listener
+
+User -> Main : choose lesson
+Main -> Facade : createExercise(word, type)
+Facade -> Provider : getFactory(type).createExercise(word)
+Provider --> Facade : Exercise
+Main -> User : exercise.getQuestion()
+User -> Main : answer
+Main -> Facade : answer(exercise, input)
+Facade -> Exercise : check(input)
+Facade -> Strategy : review(progress, correct, now)
+Strategy --> Facade : ReviewSchedule
+Facade -> Tracker : recordAnswer(word, correct, nextReview)
+Tracker -> Listener : onProgressChanged(event)
+Facade --> Main : AnswerResult
+@enduml

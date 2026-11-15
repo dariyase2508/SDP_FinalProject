@@ -1,0 +1,58 @@
+@startuml strategy
+title Strategy: spaced repetition algorithms
+skinparam classAttributeIconSize 0
+
+interface ReviewStrategy {
+  +getName(): String
+  +calculate(p: WordProgress, correct: boolean, now: LocalDateTime): ReviewSchedule
+}
+class EasyStrategy {
+  -DAYS: long[]
+  -RETRY: Duration
+}
+class NormalStrategy {
+  -DAYS: long[]
+  -RETRY: Duration
+}
+class HardStrategy {
+  -DAYS: long[]
+  -RETRY: Duration
+  -MIN_INTERVAL_MINUTES: long
+}
+class ReviewManager <<context>> {
+  -strategy: ReviewStrategy
+  +setStrategy(s: ReviewStrategy)
+  +getStrategy(): ReviewStrategy
+  +review(p: WordProgress, correct: boolean, now: LocalDateTime): ReviewSchedule
+  +getDueWords(all: Collection<WordProgress>, now: LocalDateTime): List<WordProgress>
+}
+enum StudyMode {
+  EASY
+  NORMAL
+  HARD
+  +createStrategy(): ReviewStrategy
+}
+class ReviewSchedule <<record>> {
+  newLevel: int
+  interval: Duration
+  nextReview: LocalDateTime
+  +{static} of(level, interval, now): ReviewSchedule
+}
+class WordProgress {
+  -level: int
+  -correctCount: int
+  -wrongCount: int
+  -lastReview: LocalDateTime
+  -nextReview: LocalDateTime
+  +update(...)
+  +isDue(now): boolean
+}
+
+ReviewStrategy <|.. EasyStrategy
+ReviewStrategy <|.. NormalStrategy
+ReviewStrategy <|.. HardStrategy
+ReviewManager o-- ReviewStrategy
+ReviewManager ..> WordProgress : updates
+ReviewStrategy ..> ReviewSchedule : returns
+StudyMode ..> ReviewStrategy : creates
+@enduml

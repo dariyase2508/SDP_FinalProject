@@ -1,0 +1,37 @@
+@startuml decorator
+title Decorator: extra content for lessons
+skinparam classAttributeIconSize 0
+
+class Lesson <<component>> {
+  +getId(): int
+  +getTitle(): String
+  +getWords(): List<Word>
+}
+abstract class LessonDecorator <<decorator>> {
+  #lesson: Lesson
+  +getId(): int
+  +getTitle(): String
+  +getWords(): List<Word>
+  +getWrappedLesson(): Lesson
+}
+class BonusWordsDecorator {
+  -bonusWords: List<Word>
+  +getWords(): List<Word>
+}
+class ExamplesDecorator {
+  -examples: List<String>
+  +getExamples(): List<String>
+}
+class HintDecorator {
+  -hints: List<String>
+  +getHints(): List<String>
+}
+class SampleData <<client>>
+
+LessonDecorator --|> Lesson
+LessonDecorator o-- Lesson : wraps
+LessonDecorator <|-- BonusWordsDecorator
+LessonDecorator <|-- ExamplesDecorator
+LessonDecorator <|-- HintDecorator
+SampleData ..> LessonDecorator : wraps lessons
+@enduml

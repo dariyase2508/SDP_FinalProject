@@ -1,0 +1,38 @@
+@startuml builder
+title Builder: step-by-step lesson creation
+skinparam classAttributeIconSize 0
+
+class LessonBuilder {
+  -id: int
+  -title: String
+  -words: List<Word>
+  +id(id: int): LessonBuilder
+  +title(title: String): LessonBuilder
+  +addWord(word: Word): LessonBuilder
+  +addWords(words: List<Word>): LessonBuilder
+  +build(): Lesson
+}
+class Lesson <<product>> {
+  -id: int
+  -title: String
+  -words: List<Word>
+  +getId(): int
+  +getTitle(): String
+  +getWords(): List<Word>
+}
+class Word <<record>> {
+  english: String
+  translation: String
+}
+class SampleData <<client>>
+
+LessonBuilder ..> Lesson : build() creates
+LessonBuilder o-- "*" Word
+Lesson o-- "*" Word
+SampleData ..> LessonBuilder : uses
+note right of LessonBuilder
+  build() validates:
+  id > 0, title not blank,
+  at least one word
+end note
+@enduml

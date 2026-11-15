@@ -1,0 +1,53 @@
+@startuml factory
+title Factory Method: exercises
+skinparam classAttributeIconSize 0
+
+interface Exercise {
+  +getType(): String
+  +getQuestion(): String
+  +check(answer: String): boolean
+  +getCorrectAnswer(): String
+  +getWord(): Word
+}
+abstract class BaseExercise {
+  #word: Word
+  #prompt: String
+  #correctAnswer: String
+  +check(answer: String): boolean
+  +getCorrectAnswer(): String
+  +getWord(): Word
+}
+class TranslationExercise
+class ReverseTranslationExercise
+class ScrambleExercise
+
+abstract class ExerciseFactory {
+  +{abstract} createExercise(word: Word): Exercise
+}
+class TranslationExerciseFactory
+class ReverseTranslationExerciseFactory
+class ScrambleExerciseFactory
+enum ExerciseType {
+  TRANSLATION
+  REVERSE_TRANSLATION
+  SCRAMBLE
+}
+class ExerciseFactoryProvider {
+  -factories: Map<ExerciseType, ExerciseFactory>
+  +getFactory(type: ExerciseType): ExerciseFactory
+}
+
+Exercise <|.. BaseExercise
+BaseExercise <|-- TranslationExercise
+BaseExercise <|-- ReverseTranslationExercise
+BaseExercise <|-- ScrambleExercise
+
+ExerciseFactory <|-- TranslationExerciseFactory
+ExerciseFactory <|-- ReverseTranslationExerciseFactory
+ExerciseFactory <|-- ScrambleExerciseFactory
+TranslationExerciseFactory ..> TranslationExercise : creates
+ReverseTranslationExerciseFactory ..> ReverseTranslationExercise : creates
+ScrambleExerciseFactory ..> ScrambleExercise : creates
+ExerciseFactoryProvider o-- ExerciseFactory
+ExerciseFactoryProvider ..> ExerciseType
+@enduml

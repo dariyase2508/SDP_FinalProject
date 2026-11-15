@@ -1,0 +1,44 @@
+@startuml facade
+title Facade: single entry point for the UI
+skinparam classAttributeIconSize 0
+
+class Main <<client>>
+class LinguaFlowFacade {
+  -lessons: List<Lesson>
+  -progress: Map<Word, WordProgress>
+  -mode: StudyMode
+  -timeShift: Duration
+  +getLessons(): List<Lesson>
+  +getLesson(id: int): Lesson
+  +createExercise(word: Word, type: ExerciseType): Exercise
+  +answer(exercise: Exercise, input: String): AnswerResult
+  +getDueReviews(): List<Word>
+  +setMode(mode: StudyMode)
+  +getMode(): StudyMode
+  +addProgressListener(l: ProgressListener)
+  +getLearnedWords(): int
+  +skipTime(d: Duration)
+  +now(): LocalDateTime
+}
+class AnswerResult <<record>> {
+  word: Word
+  correct: boolean
+  correctAnswer: String
+  level: int
+  nextReview: LocalDateTime
+  mode: String
+}
+class ReviewManager
+class ProgressTracker
+class ExerciseFactoryProvider
+class SampleData
+class WordProgress
+
+Main --> LinguaFlowFacade
+LinguaFlowFacade --> ReviewManager
+LinguaFlowFacade --> ProgressTracker
+LinguaFlowFacade --> ExerciseFactoryProvider
+LinguaFlowFacade --> SampleData
+LinguaFlowFacade o-- "*" WordProgress
+LinguaFlowFacade ..> AnswerResult : returns
+@enduml
